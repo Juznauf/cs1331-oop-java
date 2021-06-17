@@ -116,3 +116,226 @@
                 }
                 ```
 
+
+    - Breaking out of a while loop
+        - Use the structured programming method to break out
+        - ```java
+            boolean shouldContinue = true;
+            while (shouldContinue){
+                System.out.println("Enter some input (exit to quit):");
+                String input = System.console().readLine();
+                if (input.equalsIgnoreCase("exit")){
+                    shouldContinue = false;
+                } else {
+                    doSomethingWithInput(input);
+                }
+            }
+            ```
+
+
+#### Basic Input/Output 
+
+- `System.out.printf`
+    - This command takes a format string and any number of additional arguments, and prints the result of inserting the additional arguments into the format string according to the format specifiers in the format string 
+        - The format string can contain other text in addition to format specifiers
+        - Each format specifier begins with `%` and ends with a <i>conversion character</i>
+        - Think of each format specifier as defining a field into which a value is inserted
+
+- Number formatting
+    - If you need to print currency amounts and you want to internationalize your code, use a CurrencyFormatter `NumberFormat`.
+    - ```java
+        NumberFormat us = NumberFormat.getCurrencyInstance();
+        System.out.println(us.format(3.14));
+
+        NumberFormat de = NumberFormat.getCurrencyInstance(Locale.GERMANY);
+        System.out.println(de.format(3.14));
+        ```
+- Packages and Imports
+    - All java classes are organised in packages
+    - We've been using the default package by not specifying
+    - To use a class from a different package, you must either fully qualify it every time you use it, or import it
+    - See CurrencyFormatting.java for the example
+    
+- Console input 
+    - we can read input from console using the Scanner class
+        - ```java
+            import java.util.Scanner;
+            Scanner keyboard = new Scanner(System.in);
+            System.out.println("Enter your 3 test scores, seperated by spaces.");
+            exam1 = keyboard.nextInt();
+            exam2 = keyboard.nextInt();
+            exam3 = keyboard.nextInt();
+            examAvg = (exam1 + exam2 + exam3) / 3.0; //3.0 as we do not want to do integer division
+            System.out.printf("Your exam average is %.1f%n", examAvg); 
+            ```
+- Basic file input using `scanner`
+    - Instead of system.in, we specify the file name
+    - ```java
+        Scanner gradeFile = new Scanner(new File("grades.txt"));
+        ```
+    - Scanner hasnext method tells us if theres more input to consume
+    - ```java
+        Scanner fileScanner = new Scanner(new File("ScannerFun.java"));
+        while (fileScanner.hasNext()){
+            String line = fileScanner.nextLine();
+            // do something with line 
+        }
+        ```
+    - check `CourseAverage.java` for more info on scanning files
+
+- Basic File output using `PrintStream` 
+    - `System.out` is initialized to use the programs `stdout` file descriptor, which is the **console** if output hasnt been redirected.
+    - We can create `PrintStreams` with other files or `OutputStreams` and write to them just like weve been writing to the console.
+    - ```java
+        PrintStream outFile = new PrintStream(new File("somefile.txt"));
+        outFile.println(...);
+        ```
+    - As this procedure can cause errors to be thrown at runtime, errors such as file not found must be handled in the program, see `SampleWriter.java` for more info 
+
+
+
+
+- Programming exercise
+    - Write a program that 
+        - reads all the lines of a file whose name is given at the command line
+        - creates a new file whose file name is the original file name with "-uppercase" appended to the base name(base name is the prefix before the .java), and
+        - writes all the lines of the original file to the new file but in uppercase letters
+    - to do this we need to use the string methods `lastIndexOf, substring, toUppercase` in the java API
+    - as file constructors throw a FileNotFoundException, we need to handle this 
+    - for now use the syntax
+        - ```java
+            public static void main(String[] args) throws Exception
+            ```
+
+    - for answers look at `ScannerWriter.java`
+
+- Guess Number exercise
+    - Introduction
+        - We will practice 
+            - writing simple console programs
+            - using objects of classes from the Java standard library
+            - basic console input/output and 
+            - control structures 
+    - Problem description 
+        - You like guessing secret numbers and your friends wont play with you 
+    - Solution description 
+        - write a program that randomly chooses a secret number from 1 to 10 and asks the user to guess the number 
+        - as long as the user guesses incorrectly or doesnt enter quit the program should keep asking the user to keep guessing 
+            - if the user guesses the correct number then, before exiting, pring "Yay! You guessed it. It was N." Where N is the randomly chosen secret number 
+            - if the user guesses incorrectly print "Higher" or "Lower" depending on whether the secret number is higher or lower
+            - if the user quits before guessing correctly print "try again, it was N", where N is the randomly chosen number
+        - Create the program `SecretGame.java` with proper javadocs 
+
+    
+        
+
+
+#### Arrays
+
+- java Arrays ()
+    - are objects 
+    - are dynamically allocated (eg. with operator new), and 
+    - have a fixed number of elements of the same type 
+- creating arrays
+    - consider the expression:
+        - ```java
+            double[] scores = new double[5];
+            ```
+    - this declaration:
+        - allocated a 5 element array
+        - the 5 in the eg can be any expression that is unary promotable to an `int` 
+        - stores the address of this new array in scores, and 
+        - initializes each value to its default value (0 for numeric types, false for boolean types and null for references)
+- array declarations 
+    - the preceding array definition can be split into a declaration and initialization
+    -  ```java
+        double[] scores;
+        scores = new double[5];
+        ```
+    - we can put the [] on the type or the variable. these two are equivalent
+        - `double[] scores;`
+        - `double scores[];`
+
+- Mixed declarations
+    - we can mix array and variable declarations when element type same as variable type. by using `double scores[], average;`
+    - if we dont specify the size of the array then it will be dynamic
+
+- Array objects 
+    - after the definition
+    - the indexes start from 0
+    - size of array stored in a public final instance variable named length
+    - ```java
+        double[] scores = new double[5];
+        scores[0] = 89;
+        scores[1] = 89;
+        scores[2] = 89;
+        scores[3] = 89;
+        scores[4] = 89;
+        scores[scores.length - 1] = 99.2;
+        // scores[scores.length] = 100; // this will raise an index error
+        ```
+
+- Initializing arrays
+    - you can provide initial values for small arrays
+    - ```java
+        String[] validSuits = {"diamonds", "clubs", "hearts", "spades"};
+        ```
+    - `validSuits.length` is 4
+    - `validSuits[1]` is clubs
+    - you can also use a loop to initialize the values of an array:
+        - ```java
+            int[] squares = new int[5];
+            for (int i = 0; i < squares.length; ++i) {
+                squares[i] = i*i;
+            }
+            ```
+
+- Traversing arrays
+    - arrays and for go hand in hand 
+    - ```java 
+        double[] scores = new double[5];
+        for (int i = 0; i <5; ++i) {
+            System.out.printf("scores[%d] = %.2f%n", i , scores[i]);
+        }
+        ```
+    - we can also use the enhanced for 
+    - ```java
+        for (double score: scores) {
+            System.out.println(score);
+        }
+        ```
+    - we read this as for each element in array 
+
+- for versus for each
+    - if we dont need the index, then use the enhanced for loop
+    - enhanced for is cleaner
+
+- Array creation gotchas 
+    - because arrays are allocated dynamically, this will compile:
+        - ```java
+            double[] scores = new double[-5];
+            ```
+        - because the compiler only checks that -5 is an `int` expression, but the code will produce an error at run time
+
+- Array access gotchas 
+    - array access expressions are also merely type checked at compile time but are evaluated and checked for validity at run time. Negative indexes like `scores[-1] = 100;` will produce an error at run time.
+
+- Array parameters 
+    - weve already seen an array parameter:
+    - ```java
+        public static void main(String[] args)
+        ```
+    - we can use this array just like we use any other array
+    - ```java
+        public class Shout {
+            public static void main(String[] args){
+                for (String arg: args) {
+                    System.out.print(arg.toUpperCase()+" ");
+                }
+                System.out.println();
+            }
+        }
+        ```
+- Variable arity parameters
+    - the arity of a method is its number of formal parameters
+    - the last parameter to a method may be a variable arity parameter
