@@ -78,7 +78,7 @@
         - ```java
             String mystery = "menfafa", solved = "" ;
             int len = mystery.length();
-            for (int i = 0, j = len - 1; i<len/2, ++i, --j){
+            for (int i = 0, j = len - 1; i<len/2; ++i, --j){
                 solved = solved + mystery.charAt(i) + mystery.charAt(j);
             }
             ```
@@ -338,4 +338,69 @@
         ```
 - Variable arity parameters
     - the arity of a method is its number of formal parameters
-    - the last parameter to a method may be a variable arity parameter
+    - the last parameter to a method may be a variable arity parameter, whose syntax is simply to add an ellipse (...) after the type name.
+    - ```java 
+        public static int max(int ... numbers)
+        ```
+
+- Accessing Var Args Parameters
+    - Var args parameter is an array inside the method 
+    - ```java
+        public static int max(int ... numbers) {
+            // find the max number in the numbers array 
+            int max = numbers[0];
+            for (int i = 1; i < numbers.length; ++i) {
+                if (numbers[i] > max) max = number;
+            }
+            return max;
+        }
+        ```
+
+- Multidimensional arrays 
+    - you can create multidimensional arrays by adding additional square brackets for dimensions and sizes.
+    - ```java 
+        char[][] grid;
+        ```
+    - declares a 2-dimensional array of `char` 
+    - as with one dimensional arrays, `char` is the element type 
+    - each element of `grid`, which is indexed by two `int` expressions, is a `char` variable
+
+- Initializing 2D arrays 
+    - With `new`
+    - ```java
+        grid = new char[10][10];
+        ```
+
+- Initializing 2D arrays literally
+    - ```java
+        char[][] grid = {{' ', ' ',},
+                         {' ', ' ',},
+                         {' ', ' ',},
+                         {' ', ' ',}}; 
+                         ```
+    - Example of a 4*2 array
+    - We access the individual element by supplying 2 indices. eg `grid[2][2]`
+
+- Traversing 2D arrays
+    - Traverse 2D array by nesting loops. Key is to use the right `length`. row major traversal:
+    - ```java 
+        for (int row = 0; row < grid.length; ++row) {
+            for (int col = 0; col < grid[row].length; ++row){
+                System.out.print(grid[row][col]);
+            }
+            System.out.println();
+        }
+        ```
+    - check `TraverseArray.java` for example
+
+
+- Exercise
+    - Array utilities 
+        - write a class called `ArrayUtil` with the following methods:
+            - `public static int[] take(int n, int[] xs)` which returns a new array containing the first n elements of xs
+            - `public static int[] drop(int n, int[] xs)` which returns a new array containing the last n elements of xs
+            - `public static boolean equals(int[] xs, int[] ys)` which returns true if `xs.length == ys.length` and `xs[i] == ys[i] for 0 <=i<xs.length`
+            - `public static int[] concat(int[] xs, int[] ys)` which returns a new array containing the elements of ys after the elements of xs 
+            - `public static String toString(int[] xs)` 
+            - `public static String toString(int[][] xs)`
+            - `public static int[][] identity(int n)` which returns an n x n identity matrix 
