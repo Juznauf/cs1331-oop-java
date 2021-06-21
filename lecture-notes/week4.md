@@ -123,3 +123,12 @@
     - creates an array of Person objects
     - Iterates through the array and prints each Person object who's age is greater than 21
 
+#### Exercise: Vector2
+- write an immutable `Vector2` class with:
+    - two public final instance variables for the two components, `x` and `y` 
+    - a single constructor that takes two double params to initialize `x` and `y`
+    - a `toString()` method that returns a `String` representation of a `Vector2` that looks like `(1,2)`
+    - a `plus` method that takes another `Vector2` parameter and returns the `Vector2` result of adding this `Vector2` to the argument `Vector2`. vector addition is defined as `(x_1, y_1) + (x_2, y_2) = (x_1 + x_2, y_1 + y_2)`
+    - a `minus` method that takes another `Vector2` parameter and returns the vector2 result of subtracting the argument vector2 object from this vector2. Vector substraction is defined as `(x_1, y_1) - (x_2, y_2) = (x_1 - x_2, y_1 - y_2)`
+    - a `dot` method that takes another vector2 parameter and returned the double dot product of this vector2 and the argument vector2. Dot product is defined as `(x_1, y_1) . (x_2, y_2) = (x_1 . x_2) + (y_1 . y_2)`
+        
